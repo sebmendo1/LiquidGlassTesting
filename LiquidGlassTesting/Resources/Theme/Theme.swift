@@ -1,0 +1,258 @@
+import SwiftUI
+
+// MARK: - Hex helpers
+extension Color {
+    init(hex: String) {
+        var s = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        if s.hasPrefix("#") { s.removeFirst() }
+        var v: UInt64 = 0
+        Scanner(string: s).scanHexInt64(&v)
+        let r, g, b: Double
+        switch s.count {
+        case 6:
+            r = Double((v >> 16) & 0xFF) / 255.0
+            g = Double((v >> 8)  & 0xFF) / 255.0
+            b = Double(v & 0xFF) / 255.0
+        default:
+            r = 1; g = 1; b = 1
+        }
+        self = Color(red: r, green: g, blue: b)
+    }
+}
+
+// MARK: - Design Tokens
+struct GrayScale {
+    static let gray50  = Color(hex: "#F9FBFC")
+    static let gray100 = Color(hex: "#F0F4F7")
+    static let gray200 = Color(hex: "#E2E8ED")
+    static let gray300 = Color(hex: "#CFD6DC")
+    static let gray400 = Color(hex: "#B8C0C7")
+    static let gray500 = Color(hex: "#8D97A3")
+    static let gray600 = Color(hex: "#66707A")
+    static let gray700 = Color(hex: "#4B5560")
+    static let gray800 = Color(hex: "#2F3943")
+    static let gray900 = Color(hex: "#1C2329")
+}
+
+struct PrimaryScale {
+    static let primary50  = Color(hex: "#F2EEFC")
+    static let primary100 = Color(hex: "#E2D5F3")
+    static let primary200 = Color(hex: "#C5A9E7")
+    static let primary300 = Color(hex: "#A77FDB")
+    static let primary400 = Color(hex: "#9869D5")
+    static let primary500 = Color(hex: "#7B3EC9")
+    static let primary600 = Color(hex: "#6125B1")
+    static let primary700 = Color(hex: "#57219C")
+    static let primary800 = Color(hex: "#411976")
+    static let primary900 = Color(hex: "#361562")
+}
+
+struct BaseColors {
+    static let white = Color(hex: "#FFFFFF")
+    static let offWhite = Color(hex: "#EFEFEF")
+    static let black = Color(hex: "#000000")
+}
+
+// MARK: - Theme
+struct Theme {
+    let baseFontSize: CGFloat = 16
+    struct Radius {
+        let sm: CGFloat = 6
+        let md: CGFloat = 8
+        let lg: CGFloat = 10
+        let xl: CGFloat = 32
+        let round: CGFloat = 999
+    }
+    let radius = Radius()
+
+    struct Weights {
+        let normal: Font.Weight = .regular
+        let medium: Font.Weight = .medium
+    }
+    let weights = Weights()
+
+    let background: Color
+    let foreground: Color
+    let card: Color
+    let cardForeground: Color
+    let cardBackground: Color
+    let popover: Color
+    let popoverForeground: Color
+    let primary: Color
+    let primaryForeground: Color
+    let secondary: Color
+    let secondaryForeground: Color
+    let muted: Color
+    let mutedForeground: Color
+    let accent: Color
+    let accentForeground: Color
+    let destructive: Color
+    let destructiveForeground: Color
+    let border: Color
+    let input: Color
+    let inputBackground: Color
+    let switchBackground: Color
+    let ring: Color
+
+    let chart1: Color
+    let chart2: Color
+    let chart3: Color
+    let chart4: Color
+    let chart5: Color
+
+    let followUpGradientStart: Color
+    let followUpGradientEnd: Color
+    let followUpTagBackground: Color
+
+    let fabGradientStart: Color
+    let fabGradientEnd: Color
+
+    let headerGradientStart: Color
+    let headerGradientEnd: Color
+
+    let backgroundGradientStart: Color
+    let backgroundGradientEnd: Color
+    var backgroundGradient: LinearGradient {
+        LinearGradient(gradient: Gradient(colors: [backgroundGradientStart, backgroundGradientEnd]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+
+    let insightsBackgroundStart: Color
+    let insightsBackgroundEnd: Color
+    var insightsBackground: LinearGradient {
+        LinearGradient(gradient: Gradient(colors: [insightsBackgroundStart, insightsBackgroundEnd]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+
+    let sidebar: Color
+    let sidebarForeground: Color
+    let sidebarPrimary: Color
+    let sidebarPrimaryForeground: Color
+    let sidebarAccent: Color
+    let sidebarAccentForeground: Color
+    let sidebarBorder: Color
+    let sidebarRing: Color
+
+    static let light = Theme(
+        background: BaseColors.offWhite,
+        foreground: GrayScale.gray900,
+        card: BaseColors.offWhite,
+        cardForeground: GrayScale.gray900,
+        cardBackground: BaseColors.white,
+        popover: BaseColors.offWhite,
+        popoverForeground: GrayScale.gray900,
+        primary: PrimaryScale.primary500,
+        primaryForeground: BaseColors.white,
+        secondary: GrayScale.gray100,
+        secondaryForeground: GrayScale.gray900,
+        muted: GrayScale.gray200,
+        mutedForeground: GrayScale.gray600,
+        accent: PrimaryScale.primary500,
+        accentForeground: BaseColors.white,
+        destructive: Color(hex: "#D4183D"),
+        destructiveForeground: BaseColors.white,
+        border: GrayScale.gray300,
+        input: GrayScale.gray300,
+        inputBackground: GrayScale.gray100,
+        switchBackground: GrayScale.gray400,
+        ring: PrimaryScale.primary500,
+        chart1: Color(hex: "#F54900"),
+        chart2: Color(hex: "#009689"),
+        chart3: Color(hex: "#104E64"),
+        chart4: Color(hex: "#FFB900"),
+        chart5: Color(hex: "#FE9A00"),
+        followUpGradientStart: PrimaryScale.primary400,
+        followUpGradientEnd: PrimaryScale.primary700,
+        followUpTagBackground: BaseColors.white.opacity(0.2),
+        fabGradientStart: PrimaryScale.primary400,
+        fabGradientEnd: PrimaryScale.primary600,
+        headerGradientStart: PrimaryScale.primary500,
+        headerGradientEnd: PrimaryScale.primary700,
+        backgroundGradientStart: PrimaryScale.primary600,
+        backgroundGradientEnd: PrimaryScale.primary700,
+        insightsBackgroundStart: PrimaryScale.primary900,
+        insightsBackgroundEnd: PrimaryScale.primary900,
+        sidebar: BaseColors.offWhite,
+        sidebarForeground: GrayScale.gray900,
+        sidebarPrimary: PrimaryScale.primary500,
+        sidebarPrimaryForeground: BaseColors.white,
+        sidebarAccent: GrayScale.gray100,
+        sidebarAccentForeground: GrayScale.gray900,
+        sidebarBorder: GrayScale.gray200,
+        sidebarRing: PrimaryScale.primary500
+    )
+
+    static let dark = Theme(
+        background: GrayScale.gray900,
+        foreground: GrayScale.gray50,
+        card: GrayScale.gray800,
+        cardForeground: GrayScale.gray50,
+        cardBackground: GrayScale.gray800,
+        popover: GrayScale.gray800,
+        popoverForeground: GrayScale.gray50,
+        primary: PrimaryScale.primary400,
+        primaryForeground: GrayScale.gray900,
+        secondary: GrayScale.gray800,
+        secondaryForeground: GrayScale.gray50,
+        muted: GrayScale.gray700,
+        mutedForeground: GrayScale.gray300,
+        accent: PrimaryScale.primary400,
+        accentForeground: GrayScale.gray900,
+        destructive: Color(hex: "#FF4D6A"),
+        destructiveForeground: GrayScale.gray50,
+        border: GrayScale.gray700,
+        input: GrayScale.gray700,
+        inputBackground: GrayScale.gray800,
+        switchBackground: GrayScale.gray600,
+        ring: PrimaryScale.primary400,
+        chart1: Color(hex: "#1447E6"),
+        chart2: Color(hex: "#00BC7D"),
+        chart3: Color(hex: "#FE9A00"),
+        chart4: Color(hex: "#AD46FF"),
+        chart5: Color(hex: "#FF2056"),
+        followUpGradientStart: PrimaryScale.primary300,
+        followUpGradientEnd: PrimaryScale.primary600,
+        followUpTagBackground: BaseColors.white.opacity(0.15),
+        fabGradientStart: PrimaryScale.primary400,
+        fabGradientEnd: PrimaryScale.primary600,
+        headerGradientStart: PrimaryScale.primary500,
+        headerGradientEnd: PrimaryScale.primary700,
+        backgroundGradientStart: PrimaryScale.primary600,
+        backgroundGradientEnd: PrimaryScale.primary700,
+        insightsBackgroundStart: PrimaryScale.primary900,
+        insightsBackgroundEnd: PrimaryScale.primary900,
+        sidebar: GrayScale.gray800,
+        sidebarForeground: GrayScale.gray50,
+        sidebarPrimary: PrimaryScale.primary400,
+        sidebarPrimaryForeground: GrayScale.gray900,
+        sidebarAccent: GrayScale.gray700,
+        sidebarAccentForeground: GrayScale.gray50,
+        sidebarBorder: GrayScale.gray700,
+        sidebarRing: PrimaryScale.primary400
+    )
+}
+
+// MARK: - Environment convenience
+struct ThemeKey: EnvironmentKey {
+    static let defaultValue = Theme.light
+}
+
+extension EnvironmentValues {
+    var theme: Theme {
+        get { self[ThemeKey.self] }
+        set { self[ThemeKey.self] = newValue }
+    }
+}
+
+struct ThemeProvider: ViewModifier {
+    @Environment(\.colorScheme) private var systemColorScheme
+
+    func body(content: Content) -> some View {
+        let effectiveTheme: Theme = systemColorScheme == .dark ? .dark : .light
+
+        content
+            .environment(\.theme, effectiveTheme)
+    }
+}
+
+extension View {
+    func useTheme() -> some View { self.modifier(ThemeProvider()) }
+}

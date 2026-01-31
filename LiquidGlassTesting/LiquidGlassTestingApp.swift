@@ -12,6 +12,8 @@ struct LiquidGlassTestingApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .tint(Color(red: 0.380, green: 0.145, blue: 0.694))
+                .useTheme()
         }
     }
 }
